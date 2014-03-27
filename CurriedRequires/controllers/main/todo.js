@@ -2,9 +2,9 @@
 /**
  * ToDo's-Routes callback.
  */
-module.exports = function init(sandbox){
-    return (function ToDo(sndbx){
-        var globals = sndbx.globals;
+module.exports = (function ToDo(){
+    return function init(sandbox){
+        var globals = sandbox.globals;
         
         function privateMethod(){}
         
@@ -35,5 +35,9 @@ module.exports = function init(sandbox){
             del: del,
             neo: neo
         };
-    })(sandbox);
-};
+    };
+})();
+    
+    
+    
+    
