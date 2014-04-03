@@ -17,9 +17,9 @@ module.exports = function init(sandbox){
        .get('/todos/:id/edit', todos.edit)          // keep :params below literals
        .get('/todos/:id/remove', todos.remove);     // keep :params below literals
        
-    app.post('/todos/new', todos.add)
-       .post('/todos/:id/update', todos.update)
-       .post('/todos/:id/remove', todos.del);
+    app.post('/todos/new', todos.add)               // keep literals above :params
+       .post('/todos/:id/update', todos.update)     // keep :params below literals
+       .post('/todos/:id/remove', todos.del);       // keep :params below literals
     
     require('./API')(sandbox.api);
 };
