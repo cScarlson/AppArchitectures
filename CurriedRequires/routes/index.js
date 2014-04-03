@@ -5,13 +5,20 @@
 module.exports = function init(sandbox){
     var app = sandbox.app
       , globals = sandbox.globals
-      , index = require('../controllers/main/index.js')(sandbox)
-      , todos = require('../controllers/main/todo.js')(sandbox);
+      , index = require('../controllers/main/index.js')(sandbox.index)
+      , todos = require('../controllers/main/todo.js')(sandbox.todos);
     
-    app //init routes
-        .get('/', index.main)
-        .get('/index', index.main)
-        .get('/todos', todos.list);
+    app.get('/', index.main)
+       .get('/index', index.main)
+       .get('/todos', todos.items)
+       .get('/todos/new', todos.create)             // keep literals above :params
+       .get('/todos/remove', todos.remove)          // keep literals above :params
+       .get('/todos/:id', todos.item)               // keep :params below literals
+       .get('/todos/:id/edit', todos.edit)          // keep :params below literals
+       .get('/todos/:id/remove', todos.remove);     // keep :params below literals
+       
+    app.post('/todos/new', todos.add);
+    app.post('/todos/:id/update', todos.update);
     
-    require('./API')(sandbox);
+    require('./API')(sandbox.api);
 };

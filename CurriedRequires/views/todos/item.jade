@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  h2= item.title
+  h6= item._id
+  p= item.desc
+  a(href="/todos/#{item._id}/edit", style="") Edit | 
+  a(href="/todos/#{item._id}/remove", style="") remove

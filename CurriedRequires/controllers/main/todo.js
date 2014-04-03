@@ -4,36 +4,73 @@
  */
 module.exports = (function ToDo(){
     return function init(sandbox){
-        var globals = sandbox.globals;
+        var globals = sandbox.globals
+          , Todo = sandbox.model;
         
         function privateMethod(){}
         
-        function list(req, res){
-            res.render('todos/list', {title: 'List ToDos'});
+        function items(req, res){
+            Todo.find({}, function(err, docs){
+                res.render('todos/items', {title: 'List ToDos', items: docs}); 
+            });
         }
         
-        function view(req, res){
-            res.render('todos/view', {title: 'ToDos'});
+        function item(req, res){
+            Todo.findOne({_id: req.params.id}, function(err, doc){
+                res.render('todos/item', {title: 'ToDos', item: doc});
+            });
         }
         
         function edit(req, res){
-            res.render('todos/edit', {title: 'Edit ToDo'});
+            Todo.findOne({_id: req.params.id}, function(err, doc){
+                if(!err){
+                    res.render('todos/edit', {title: 'Edit ToDo', item: doc});
+                }else{
+                    res.send('error editing task');
+                }
+            });
+            
         }
         
-        function del(req, res){
-            res.render('todos/del', {title: 'Delete ToDo'});
+        function create(req, res){
+            res.render('todos/create', {title: 'New ToDo'});
         }
         
-        function neo(req, res){
-            res.render('todos/neo', {title: 'New ToDo'});
+        function remove(req, res){
+            res.render('todos/remove', {title: 'Delete ToDo'});
+        }
+        
+        function addItem(req, res){
+            var todo = new Todo({title: req.body.title, desc: req.body.desc});
+            todo.save(function(err){
+                if(!err){
+                    res.redirect('/todos');
+                }else{
+                    console.log('error creating todo item:', err);
+                    res.send('error creating todo item: ' + err);
+                }
+            });
+        }
+        
+        function update(req, res){
+            Todo.update({_id: req.params.id}, {title: req.body.title, desc: req.body.desc}, function(err, doc){
+                if(!err){
+                    res.redirect('/todos');
+                }else{
+                    console.log('error creating todo item:', err);
+                    res.send('error creating todo item: ' + err);
+                }
+            });
         }
         
         return {
-            list: list,
-            view: view,
+            items: items,
+            item: item,
             edit: edit,
-            del: del,
-            neo: neo
+            create: create,
+            remove: remove,
+            add: addItem,
+            update: update
         };
     };
 })();

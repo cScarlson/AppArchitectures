@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  ul(style="list-style: none;")
+    each item in items
+      a(href="/todos/#{item._id}")
+        li(style="border: #444 solid 1px; padding: 4px; width: 100%; height: auto; margin: 2px;")
+          b= item.title
+          p= item.desc
+          a(href="/todos/#{item._id}/edit", style="") Edit | 
+          a(href="/todos/#{item._id}/remove", style="") remove
+            
+    a(href="/todos/new")
+      li(style="border: #444 solid 1px; padding: 4px; width: 100%; height: auto; background: #888 margin: 2px;")
+        b Create New ToDo
+          
+
+    

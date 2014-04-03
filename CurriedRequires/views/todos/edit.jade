@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  
+  form(method="POST", action="/todos/#{item._id}/update")
+    input(type="text", name="title", value="#{item.title}")
+    br
+    textarea(cols="64", rows="4", name="desc") #{item.desc}
+    br
+    input(id="submit", type="submit", value="submit")

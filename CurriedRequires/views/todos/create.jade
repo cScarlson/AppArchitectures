@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  
+  form(method="POST", action="/todos/new")
+    input(type="text", name="title", placeholder="title")
+    br
+    textarea(cols="64", rows="4", name="desc", placeholder="description")
+    br
+    input(id="submit", type="submit", value="submit")
+
+script(type="text/javascript").
+  window.onload = function(){
+  
+    var submit = document.querySelector('#submit');
+    var title = document.querySelector('#submit input[type="text"]');
+    var desc = document.querySelector('#submit textarea');
+    submit.addEventListener('click', function(e){
+      alert('?');
+      var xhr = new XMLHttpRequest();
+      xhr.open('post', '/todos/create', true);
+      xhr.send('title=' + title.value + '&desc=' + desc.innerText);
+    }, false);
+  
+  };
+
