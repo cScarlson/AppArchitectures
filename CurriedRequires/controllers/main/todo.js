@@ -37,7 +37,25 @@ module.exports = (function ToDo(){
         }
         
         function remove(req, res){
-            res.render('todos/remove', {title: 'Delete ToDo'});
+            Todo.findOne({_id: req.params.id}, function(err, doc){
+                if(!err){
+                    res.render('todos/remove', {title: 'Delete ToDo', item: doc});
+                }else{
+                    console.log('@Todo #remove', err);
+                    res.send('Error: Item not found');
+                }
+            });
+        }
+        
+        function del(req, res){
+            Todo.remove({_id: req.params.id}, function(err, doc){
+                if(!err){
+                    res.redirect('/todos');
+                }else{
+                    console.log('@Todo #delete', err);
+                    res.send('Error: Could not delete item');
+                }
+            });
         }
         
         function addItem(req, res){
@@ -69,6 +87,7 @@ module.exports = (function ToDo(){
             edit: edit,
             create: create,
             remove: remove,
+            del: del,
             add: addItem,
             update: update
         };

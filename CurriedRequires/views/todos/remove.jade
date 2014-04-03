@@ -2,4 +2,10 @@ extends ../layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Are you sure you want to remove #{item.title}: #{item._id}
+  br
+  form(method="POST", action="/todos/#{item._id}/remove")
+    input(type="submit", value="Remove")
+    a(href="/todos")
+      button Cancel
+  
